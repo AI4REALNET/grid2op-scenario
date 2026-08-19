@@ -15,6 +15,22 @@ opponent_attack_cooldown = 12  # 1 hour, 1 hour being 12 time steps
 opponent_attack_duration = 96  # 8 hours at maximum
 opponent_budget_per_ts = 0.17  # opponent_attack_duration / opponent_attack_cooldown + epsilon
 opponent_init_budget = 144.  # no need to attack straightfully, it can attack starting at midday the first day
+
+# Thermal limits (in Amps), one value per line, in `env.name_line` order.
+# ai4realnet_small_sim2real is a physical subgrid of ai4realnet_large_sim2real: every line
+# here also exists in ai4realnet_large_sim2real/config.py's `th_lim`, under the same name
+# (e.g. "58_60_156"). These values MUST stay equal to the corresponding entries there - do
+# not tune them independently, or line loading (rho) will no longer be comparable between
+# the two environments.
+th_lim = [
+    83.0, 353.0, 541.0, 316.0, 1033.0, 379.0, 316.0, 313.0, 371.0, 301.0,
+    346.0, 449.0, 571.0, 169.0, 273.0, 88.0, 113.0, 446.0, 589.0, 589.0,
+    279.0, 256.0, 157.0, 195.0, 221.0, 119.0, 256.9, 326.0, 376.6, 179.5,
+    927.9, 223.0, 90.0, 119.0, 75.0, 79.0, 317.9, 236.0, 249.0, 118.0,
+    693.0, 671.0, 453.0, 318.5, 427.2, 689.0, 701.0, 721.0, 616.0, 616.0,
+    108.7, 340.2, 223.0, 384.0, 409.0, 661.0, 689.0, 397.0, 1019.0,
+]
+
 config = {
     "backend": PandaPowerBackend,
     "action_class": PlayableAction,
@@ -25,13 +41,7 @@ config = {
     "grid_value_class": GridStateFromFileWithForecasts,
     "volagecontroler_class": None,
     "names_chronics_to_grid": None,
-    "thermal_limits": [60.9, 231.9, 272.6, 212.8, 749.2, 332.4, 348., 414.4, 310.1,
-                       371.4, 401.2, 124.3, 298.5, 86.4, 213.9, 160.8, 112.2, 291.4,
-                       489., 489., 124.6, 196.7, 191.9, 238.4, 174.2, 105.6, 143.7,
-                       293.4, 288.9, 107.7, 415.5, 148.2, 124.2, 154.4, 85.9, 106.5,
-                       142., 124., 130.2, 86.2, 278.1, 182., 592.1, 173.1, 249.8,
-                       441., 344.2, 722.8, 494.6, 494.6, 196.7, 151.8, 263.4, 364.1,
-                       327., 370.5, 441., 300.3, 656.2],
+    "thermal_limits": th_lim,
     "opponent_attack_cooldown": opponent_attack_cooldown,
     "opponent_attack_duration": opponent_attack_duration,
     "opponent_budget_per_ts": opponent_budget_per_ts,
